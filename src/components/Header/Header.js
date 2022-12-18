@@ -1,14 +1,21 @@
-import React from 'react';
+import React from "react";
 
 function Header() {
-    return(
-        <nav class='navbar navbar-dark bg-primary'>
-            <div className='row col-12 d-flex ustify-content-center text-white'>
-                <span className='h3'>Register</span>
-            </div>
+  return (
+    <nav class="navbar navbar-dark bg-primary">
+      <a href="#" className="navbar-brand">
+        Banking App
+      </a>
 
-        </nav>
-    )
+      <ul className="navbar-nav">
+        <li className="nav-item mr-auto">
+          <a href="#" className="nav-link">
+            Home
+          </a>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default Header;

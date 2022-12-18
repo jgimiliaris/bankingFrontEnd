@@ -1,37 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
-import Register from './Register';
+import logo from "./logo.svg";
+import "./App.css";
+import Register from "./Register";
 
-import Login from './Login';
-import Header from './components/Header/Header';
-import Home from './Home';
-import Layout from './Layout';
-import CreateAccount from './CreateAccount';
-import NewTransaction from './newTransaction';
+import Login from "./Login";
+import Header from "./components/Header/Header";
+import Home from "./Home";
+import Layout from "./Layout";
+import CreateAccount from "./CreateAccount";
+import NewTransaction from "./newTransaction";
 
+import { Routes, Route } from "react-router-dom";
 
-import { Routes, Route } from 'react-router-dom';
-
-import RequireAuth from './RequireAuth';
-
-
+import RequireAuth from "./RequireAuth";
 
 function App() {
   return (
-    <Routes>
-      <Route path="" element={<Layout />}>
-        {/*public Routes*/}
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+    <div>
+      <Header />
+      <Routes>
+        <Route path="" element={<Layout />}>
+          {/*public Routes*/}
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
 
-        {/*Those need to be protected*/}
-        <Route element={<RequireAuth />}>
-          <Route path="/" element={<Home />} />
-          <Route path="create_account" element={<CreateAccount />} />
-          <Route path="new_transaction" element={<NewTransaction />} />
+          {/*Those need to be protected*/}
+          <Route element={<RequireAuth />}>
+            <Route path="/" element={<Home />} />
+            <Route path="create_account" element={<CreateAccount />} />
+            <Route path="new_transaction" element={<NewTransaction />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </div>
   );
 }
 

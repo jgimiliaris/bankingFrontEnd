@@ -66,42 +66,44 @@ const NaccountTransaction = () => {
 
     const balanceSelected = search(result, "accountId", selectedValue);
 
-    console.log(ammount);
+    console.log(selectedValue);
 
     if (balanceSelected.balance < ammount) {
       setErrMsg("Insufficient Balance to perform this transaction");
     } else {
-      console.log("transactions done");
-    }
+      const accountId = selectedValue;
 
-    console.log(selectedValue + " " + ammount + " " + destAccount);
+      const Ndata = {
+        accountId: selectedValue,
+        transactionAmount: ammount,
+        destinationAccount: destAccount,
+      };
 
-    const accountId = selectedValue;
+      //console.log(Ndata);
 
-    try {
-      const response = await axios.post(
-        TRANSFER_URL,
-        JSON.stringify({
-          accountId,
-          transactionAmount: ammount,
-          destinationAccount: destAccount,
-        }),
-        {
-          headers: {
-            "x-access-token": token,
-          },
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+
+      try {
+        const response = await axios.post(TRANSFER_URL, Ndata, config);
+
+        console.log("success? " + response);
+        alert("Your transaction of " + ammount + " was performed succesfuly!");
+
+        window.location.href = "/";
+
+        //console.log(response);
+      } catch (err) {
+        if (!err?.response) {
+          setErrMsg("No server Response");
+        } else {
+          setErrMsg("Unable to do transaction");
+          console.log(typeof ammount);
         }
-      );
-
-      console.log("success? " + response);
-
-      //console.log(response);
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No server Response");
-      } else {
-        setErrMsg("Unable to do transaction");
-        console.log(typeof ammount);
       }
     }
   };
