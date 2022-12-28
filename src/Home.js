@@ -6,6 +6,8 @@ import Header from "./components/Header/Header";
 
 const HISTORY_URL = "/transactions";
 
+const GETACCOUNTS_CURL = "/accounts";
+
 const User = () => {
   const userId = useAuth().auth.userId;
   const token = useAuth().auth.accessToken;
@@ -13,24 +15,62 @@ const User = () => {
 
   const [history, setHistory] = useState([]);
 
+  const [result, setResult] = useState([]);
+  const [selectedValue, setselectedValue] = useState();
+
+  // useEffect(() => {
+  //   getHistory();
+  // }, []);
+
   useEffect(() => {
-    getHistory();
+    getAccounts();
   }, []);
 
-  const getHistory = async () => {
-    const response = await axios.get(HISTORY_URL, {
+  const getAccounts = async () => {
+    const response = await axios.get(GETACCOUNTS_CURL, {
       headers: {
         "x-access-token": token,
       },
     });
-    //console.log(response?.data);
-    setHistory(response.data);
 
+    setResult(response.data);
+  };
+
+  // const getHistory = async () => {
+  //   const response = await axios.get(HISTORY_URL, {
+  //     headers: {
+  //       "x-access-token": token,
+  //     },
+  //   });
+
+  //   setHistory(response.data);
+
+  //   const transactions = response?.data;
+
+  //   for (let index = 0; index < transactions.length; index++) {
+  //     const transaction = transactions[index].transactionId;
+  //   }
+  // };
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(selectedValue);
+
+    const response = await axios.get(HISTORY_URL, {
+      body: {
+        accountId: selectedValue,
+      },
+      headers: {
+        "x-access-token": token,
+      },
+    });
+
+    setHistory(response.data);
     const transactions = response?.data;
 
     for (let index = 0; index < transactions.length; index++) {
       const transaction = transactions[index].transactionId;
-      console.log(transaction);
     }
   };
 
@@ -50,6 +90,28 @@ const User = () => {
 
       <div>
         <h2 className="display-4">History</h2>
+
+        <label htmlFor="select" className="form-label">
+          Select an account:
+        </label>
+
+        <form onSubmit={handlesubmit}>
+          <select
+            id="select"
+            onChange={(e) => setselectedValue(e.target.value)}
+            className="form-control"
+          >
+            {result.map((userAcc) => (
+              <option key={userAcc.accountId} value={userAcc.accountId}>
+                Account with Balance {userAcc.balance}
+              </option>
+            ))}
+          </select>
+
+          <div className="m-3 ">
+            <button className="btn btn-outline-success">Get History </button>
+          </div>
+        </form>
 
         <table className="table">
           <thead>
