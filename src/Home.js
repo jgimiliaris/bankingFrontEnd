@@ -57,14 +57,16 @@ const User = () => {
 
     console.log(selectedValue);
 
-    const response = await axios.get(HISTORY_URL, {
-      body: {
-        accountId: selectedValue,
-      },
-      headers: {
-        "x-access-token": token,
-      },
-    });
+    const response = await axios.post(
+      HISTORY_URL,
+      JSON.stringify({ accountId: selectedValue }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      }
+    );
 
     setHistory(response.data);
     const transactions = response?.data;
