@@ -55,8 +55,6 @@ const User = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
 
-    console.log(selectedValue);
-
     const response = await axios.post(
       HISTORY_URL,
       JSON.stringify({ accountId: selectedValue }),

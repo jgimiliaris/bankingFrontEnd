@@ -9,7 +9,6 @@ const TRANSFER_URL = "/tranfer";
 const NaccountTransaction = () => {
   //const userId = useAuth.auth.userId;
   const token = useAuth().auth.accessToken;
-  //console.log("entered the porg 1");
 
   //const [jsonData, setJsonData] = useState([]);
 
@@ -30,7 +29,7 @@ const NaccountTransaction = () => {
   }, []);
 
   const getAccounts = async () => {
-    //console.log("loading");
+    //("loading");
     const response = await axios.get(GETACCOUNTS_CURL, {
       headers: {
         "x-access-token": token,
@@ -38,18 +37,17 @@ const NaccountTransaction = () => {
     });
 
     setResult(response.data);
-    console.log(result);
 
     // const accounts = result?.data;
 
     // for (let index = 0; index < accounts.length; index++) {
     //   const account = accounts[index].accountId;
-    //   console.log(account);
+    //   (account);
     // }
   };
 
   //const userAccounts = result;
-  //console.log(userAccounts);
+  //(userAccounts);
 
   const search = (array, key, value) => {
     for (const element of array) {
@@ -61,12 +59,10 @@ const NaccountTransaction = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-    //console.log(selectedValue);
-    //console.log(ammount);
+    //(selectedValue);
+    //(ammount);
 
     const balanceSelected = search(result, "accountId", selectedValue);
-
-    console.log(selectedValue);
 
     if (balanceSelected.balance < ammount) {
       setErrMsg("Insufficient Balance to perform this transaction");
@@ -79,7 +75,7 @@ const NaccountTransaction = () => {
         destinationAccount: destAccount,
       };
 
-      //console.log(Ndata);
+      //(Ndata);
 
       const config = {
         headers: {
@@ -91,18 +87,16 @@ const NaccountTransaction = () => {
       try {
         const response = await axios.post(TRANSFER_URL, Ndata, config);
 
-        console.log("success? " + response);
         alert("Your transaction of " + ammount + " was performed succesfuly!");
 
         window.location.href = "/";
 
-        //console.log(response);
+        //(response);
       } catch (err) {
         if (!err?.response) {
           setErrMsg("No server Response");
         } else {
           setErrMsg("Unable to do transaction");
-          console.log(typeof ammount);
         }
       }
     }
